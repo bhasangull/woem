@@ -18,6 +18,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
+import { revalidatePath } from "next/cache";
 import type { Article, Category, Bio, ArticleImage } from "../types/article";
 import { db, storage } from "./firebase";
 
@@ -84,6 +85,8 @@ export async function saveArticle(
     }
 
     await setDoc(articleRef, article);
+    // Revalidate the homepage after saving an article
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
     console.error("Error saving article:", error);
@@ -107,6 +110,8 @@ export async function deleteArticle(
       console.log("No images to delete or error deleting images:", error);
     }
 
+    // Revalidate the homepage after deleting an article
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
     console.error("Error deleting article:", error);
@@ -132,6 +137,8 @@ export async function saveCategory(
   try {
     const categoryRef = doc(db, "categories", category.id);
     await setDoc(categoryRef, category);
+    // Revalidate the homepage after saving a category
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
     console.error("Error saving category:", error);
@@ -144,6 +151,8 @@ export async function deleteCategory(
 ): Promise<{ success: boolean; error?: string }> {
   try {
     await deleteDoc(doc(db, "categories", id));
+    // Revalidate the homepage after deleting a category
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
     console.error("Error deleting category:", error);
@@ -172,6 +181,8 @@ export async function saveBio(bio: Bio): Promise<{ success: boolean; error?: str
   try {
     const bioRef = doc(db, "bio", bio.id);
     await setDoc(bioRef, bio);
+    // Revalidate the homepage after saving bio
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
     console.error("Error saving bio:", error);

@@ -2,6 +2,9 @@ import Link from "next/link";
 import { getArticles, getCategories, getBio } from "../lib/actions";
 import { getArticlesByCategory } from "../lib/utils-server";
 
+// Add revalidation configuration
+export const revalidate = 0; // This enables on-demand revalidation
+
 function renderTextWithLinks(text: string, links: Array<{ name: string; url: string }>) {
   let result = text;
 
