@@ -25,8 +25,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/link-image.webp",
-        width: 800,
-        height: 600,
+        width: 400,
+        height: 400,
         alt: "Woem Logo",
       },
     ],
